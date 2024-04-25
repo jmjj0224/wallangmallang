@@ -5,36 +5,57 @@
 <title>타로 카드 추출기</title>
 <style>
     body {
+        @font-face {
+            font-family: 'BMHANNAPro';
+            src: url('https://github.com/jmjj0224/wallangmallang/raw/main/BMHANNAPro.ttf') format('truetype');
+        }
+        body {
+            font-family: 'BMHANNAPro', sans-serif;
+        }
         font-family: Arial, sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 50px;
+        margin: 20px 0;
+        background-color: #FFBE98;
     }
     .container {
         display: flex;
-        justify-content: space-between;
-        width: 80%;
+        flex-direction: column;
+        align-items: center;
+        width: 90%; /* Adjust the width to fit a mobile view */
+        max-width: 400px; /* Limit width for larger devices */
     }
     .history {
-        width: 20%;
-        text-align: left;
-        border-left: 2px solid gray;
-        padding-left: 10px;
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+        border-top: 2px solid gray;
+        padding-top: 10px;
     }
     button {
         font-size: 16px;
-        padding: 10px;
+        padding: 10px 20px;
         margin-top: 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
     }
     #card {
         font-size: 24px;
-        color: blue;
+        color: #333;
+        margin-top: 20px;
     }
-    #date {
-        margin-top: 5px;
-        font-size: 14px;
-        color: green;
+    #cardImage {
+        margin-top: 20px;
+        width: 100%; /* Full width of the container */
+        max-height: 450px; /* Adjusted for a narrower display */
+        object-fit: cover; /* Ensures the image is sized properly */
     }
 </style>
 </head>
@@ -43,6 +64,7 @@
     <div>
         <h1>타로 카드 추출기</h1>
         <div id="card">카드를 뽑아보세요!</div>
+        <img id="cardImage" src="" alt="Tarot Card Image">
         <div id="date"></div>
         <button onclick="drawCard()">스프레드</button>
     </div>
@@ -54,20 +76,37 @@
 
 <script>
     const majorArcana = [
-        "바보", "마법사", "여사제", "여황제",
-        "황제", "교황", "연인", "전차",
-        "힘", "은둔자", "운명의 수레바퀴", "정의",
-        "매달린 사람", "죽음", "절제", "악마",
-        "탑", "별", "달", "태양",
-        "심판", "세계"
-    ];
+        { name: "바보", image: "path_to_images/TheFool.jpg" },
+        { name: "마법사", image: "path_to_images/TheMagician.jpg" },
+        { name: "여사제", image: "path_to_images/TheHighPriestess.jpg" },
+        { name: "여황제", image: "path_to_images/TheEmpress.jpg" },
+        { name: "황제", image: "path_to_images/TheEmperor.jpg" },
+        { name: "교황", image: "path_to_images/TheHierophant.jpg" },
+        { name: "연인", image: "path_to_images/TheLovers.jpg" },
+        { name: "전차", image: "path_to_images/TheChariot.jpg" },
+        { name: "힘", image: "path_to_images/Strength.jpg" },
+        { name: "은둔자", image: "path_to_images/TheHermit.jpg" },
+        { name: "운명의 수레바퀴", image: "path_to_images/WheelOfFortune.jpg" },
+        { name: "정의", image: "path_to_images/Justice.jpg" },
+        { name: "매달린 사람", image: "path_to_images/TheHangedMan.jpg" },
+        { name: "죽음", image: "path_to_images/Death.jpg" },
+        { name: "절제", image: "path_to_images/Temperance.jpg" },
+        { name: "악마", image: "path_to_images/TheDevil.jpg" },
+        { name: "탑", image: "path_to_images/TheTower.jpg" },
+        { name: "별", image: "path_to_images/TheStar.jpg" },
+        { name: "달", image: "path_to_images/TheMoon.jpg" },
+        { name: "태양", image: "path_to_images/TheSun.jpg" },
+        { name: "심판", image: "path_to_images/Judgement.jpg" },
+        { name: "세계", image: "path_to_images/TheWorld.jpg" } ];
 
     function drawCard() {
-        const selectedCard = majorArcana[Math.floor(Math.random() * majorArcana.length)];
+        const card = majorArcana[Math.floor(Math.random() * majorArcana.length)];
         const now = new Date().toLocaleString('ko-KR');
-        document.getElementById('card').textContent = selectedCard;
+        document.getElementById('card').textContent = card.name;
+        document.getElementById('cardImage').src = card.image;
+        document.getElementById('cardImage').alt = card.name + " 이미지";
         document.getElementById('date').textContent = `추출 시간: ${now}`;
-        updateHistory(selectedCard, now);
+        updateHistory(card.name, now);
     }
 
     function updateHistory(card, time) {
